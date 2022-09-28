@@ -63,21 +63,21 @@ public class TodoController: ControllerBase
         );
     }
 
-    [HttpGet]
-    public async Task<IActionResult> GetAllBySearch(string search)
-    {
-        var query = new GetAllTodoByHttpContextIdQuery();
+    // [HttpGet]
+    // public async Task<IActionResult> GetAllBySearch(string search)
+    // {
+    //     var query = new GetAllTodoByHttpContextIdQuery();
 
-        var result = await _mediator.Send(query);
+    //     var result = await _mediator.Send(query);
 
-        return Ok
-        (
-            result
-                .Where(r => r.Text.Contains(search))
-                .Select(r => _mapper.Map<GetTodoResponse>(r))
-                .ToList()
-        );
-    }
+    //     return Ok
+    //     (
+    //         result
+    //             .Where(r => r.Text.Contains(search))
+    //             .Select(r => _mapper.Map<GetTodoResponse>(r))
+    //             .ToList()
+    //     );
+    // }
 
     [HttpPatch("{todoId}")]
     public async Task<IActionResult> Update(Guid todoId, UpdateTodoRequest request)
