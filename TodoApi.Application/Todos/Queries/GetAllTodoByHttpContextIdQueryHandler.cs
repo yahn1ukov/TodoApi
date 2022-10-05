@@ -10,15 +10,15 @@ public class GetAllTodoByHttpContextIdQueryHandler : IRequestHandler<GetAllTodoB
 
     public GetAllTodoByHttpContextIdQueryHandler(ITodoRepository todoRepository)
     {
-       _todoRepository = todoRepository; 
+        _todoRepository = todoRepository;
     }
 
     public async Task<ICollection<GetTodoResult>> Handle(GetAllTodoByHttpContextIdQuery query, CancellationToken cancellationToken)
     {
         var todo = await _todoRepository.GetAllByHttpContextId();
-        
+
         return todo
-            .Select(t => new GetTodoResult(t.Id, t.Text, t.CreatedAt))
+            .Select(t => new GetTodoResult(t.Id, t.Text, t.IsEdited, t.CreatedAt))
             .ToList();
     }
 }

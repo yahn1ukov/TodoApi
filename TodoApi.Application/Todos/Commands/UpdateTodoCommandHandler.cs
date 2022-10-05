@@ -1,6 +1,5 @@
 using MediatR;
 using TodoApi.Application.Common.Exception.Errors;
-using TodoApi.Application.Todos.Common;
 using TodoApi.Domain.Entities;
 using TodoApi.Domain.Repositories;
 
@@ -12,18 +11,21 @@ public class UpdateTodoCommandHandler : IRequestHandler<UpdateTodoCommand, bool>
 
     public UpdateTodoCommandHandler(ITodoRepository todoRepository)
     {
-        _todoRepository = todoRepository;   
+        _todoRepository = todoRepository;
     }
 
     public async Task<bool> Handle(UpdateTodoCommand command, CancellationToken cancellationToken)
     {
-       if(await _todoRepository.GetById(command.TodoId) is not Todo todo)
-       {
+        if (await _todoRepository.GetById(command.TodoId) is not Todo todo)
+        {
             throw new TodoNotFoundException();
-       }
+        }
 
-       todo.Text = command.Text;
+        todo.Text = command.Text;
+        todo.IsEdited = true;
 
-       return true; 
+        await _todoRepository.Update(todo);
+
+        return true;
     }
 }
