@@ -36,12 +36,12 @@ public class TodoRepository : ITodoRepository
 
     public async Task<ICollection<Todo>> GetAllByHttpContextId()
     {
-        return await _context.Todos.Where(t => t.User.Id == _userAccessor.GetId()).OrderBy(t => t.Text).ToListAsync();
+        return await _context.Todos.Where(t => t.User.Id == _userAccessor.GetId()).ToListAsync();
     }
 
     public async Task<Todo?> GetById(Guid todoId)
     {
-        return await _context.Todos.FirstOrDefaultAsync(t => t.Id == todoId); 
+        return await _context.Todos.FirstOrDefaultAsync(t => t.Id == todoId);
     }
 
     public async Task Update(Todo todo)

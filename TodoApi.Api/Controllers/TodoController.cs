@@ -47,6 +47,38 @@ public class TodoController : ControllerBase
         );
     }
 
+    [HttpGet("asc")]
+    public async Task<IActionResult> GetAllByAsc()
+    {
+        var query = new GetAllTodoByHttpContextIdQuery();
+
+        var result = await _mediator.Send(query);
+
+        return Ok
+        (
+            result
+                .Select(r => _mapper.Map<GetTodoResponse>(r))
+                .OrderBy(t => t.Text)
+                .ToList()
+        );
+    }
+
+    [HttpGet("desc")]
+    public async Task<IActionResult> GetAllByDesc()
+    {
+        var query = new GetAllTodoByHttpContextIdQuery();
+
+        var result = await _mediator.Send(query);
+
+        return Ok
+        (
+            result
+                .Select(r => _mapper.Map<GetTodoResponse>(r))
+                .OrderByDescending(t => t.Text)
+                .ToList()
+        );
+    }
+
     [HttpPatch("{todoId}")]
     public async Task<IActionResult> Update(Guid todoId, UpdateTodoRequest request)
     {
